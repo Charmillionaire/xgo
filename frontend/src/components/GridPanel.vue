@@ -2529,6 +2529,16 @@ const getLayoutConfig = (group: NavGroup) => {
   };
 };
 
+// 无图标卡片（纯文字标签）：即使全局关闭了卡片背景，
+// 也渲染为白色底 + 浅灰边框的标签，文字居中
+const isLabelCard = (group: NavGroup, item: NavItem) => {
+  const shape = group.iconShape || store.appConfig.iconShape;
+  if (shape !== "hidden") return false;
+  const layout = group.cardLayout || store.appConfig.cardLayout;
+  if (layout !== "horizontal") return false;
+  return !String(item.icon || "").trim();
+};
+
 // Close settings when clicking outside
 // Note: In a real app we might use onClickOutside from @vueuse/core on the menu ref,
 // but here we can just rely on the fact that clicking elsewhere (if not stopped) handles it?
@@ -3776,9 +3786,11 @@ onUnmounted(() => {
                       : (group.iconShape || store.appConfig.iconShape) === 'leaf'
                         ? 'rounded-tl-3xl rounded-br-3xl rounded-tr-md rounded-bl-md'
                         : 'rounded-lg',
-                  (group.showCardBackground ?? store.appConfig.showCardBackground) === false
-                    ? ''
-                    : 'border backdrop-blur-sm',
+                  isLabelCard(group, item)
+                    ? 'border border-gray-200 shadow-sm'
+                    : (group.showCardBackground ?? store.appConfig.showCardBackground) === false
+                      ? ''
+                      : 'border backdrop-blur-sm',
                   store.appConfig.mouseHoverEffect === 'lift'
                     ? 'hover:-translate-y-1 hover:shadow-lg'
                     : store.appConfig.mouseHoverEffect === 'glow'
@@ -3789,12 +3801,14 @@ onUnmounted(() => {
                 ]"
                 :style="{
                   height: getLayoutConfig(group).height + 'px',
-                  backgroundColor:
-                    (group.showCardBackground ?? store.appConfig.showCardBackground) === false
+                  backgroundColor: isLabelCard(group, item)
+                    ? '#ffffff'
+                    : (group.showCardBackground ?? store.appConfig.showCardBackground) === false
                       ? 'transparent'
                       : group.cardBgColor || store.appConfig.cardBgColor || 'var(--card-bg-color)',
-                  borderColor:
-                    (group.showCardBackground ?? store.appConfig.showCardBackground) === false
+                  borderColor: isLabelCard(group, item)
+                    ? '#e5e7eb'
+                    : (group.showCardBackground ?? store.appConfig.showCardBackground) === false
                       ? 'transparent'
                       : 'var(--card-border-color)',
                 }"
@@ -4013,9 +4027,9 @@ onUnmounted(() => {
                   <div
                     :class="[
                       !item.description1 && !item.description2 && !item.description3
-                        ? 'text-left'
-                        : 'text-xs',
-                      'truncate font-medium leading-tight flex justify-between items-center',
+                        ? 'text-center justify-center'
+                        : 'text-xs justify-between',
+                      'truncate font-medium leading-tight flex items-center',
                     ]"
                     :style="{
                       color:
