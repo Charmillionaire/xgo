@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"xgogo-backend/config"
-	"xgogo-backend/models"
+	"xgo-backend/config"
+	"xgo-backend/models"
 
 	"github.com/gin-gonic/gin"
 )

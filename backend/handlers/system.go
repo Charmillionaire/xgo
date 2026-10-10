@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"encoding/json"
-	"xgogo-backend/config"
-	"xgogo-backend/utils"
+	"xgo-backend/config"
+	"xgo-backend/utils"
 	"fmt"
 	"io"
 	"log"

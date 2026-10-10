@@ -1,7 +1,7 @@
 package ws
 
 import (
-	"xgogo-backend/config"
+	"xgo-backend/config"
 	"strings"
 
 	"github.com/golang-jwt/jwt/v5"

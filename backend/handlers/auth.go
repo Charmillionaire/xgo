@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"xgogo-backend/config"
-	"xgogo-backend/models"
-	"xgogo-backend/utils"
+	"xgo-backend/config"
+	"xgo-backend/models"
+	"xgo-backend/utils"
 	"io/fs"
 	"net/http"
 	"os"

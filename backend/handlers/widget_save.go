@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"xgogo-backend/config"
-	"xgogo-backend/utils"
-	"xgogo-backend/ws"
+	"xgo-backend/config"
+	"xgo-backend/utils"
+	"xgo-backend/ws"
 	"net/http"
 	"path/filepath"
 	"strings"

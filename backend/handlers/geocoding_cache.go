@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"xgogo-backend/config"
+	"xgo-backend/config"
 )
 
 // GeoCoord stores geocoding result for a city

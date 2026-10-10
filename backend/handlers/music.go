@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"xgogo-backend/config"
+	"xgo-backend/config"
 	"fmt"
 	"net/http"
 	"os"

@@ -21,7 +21,7 @@ import (
 	"sync"
 	"time"
 
-	"xgogo-backend/config"
+	"xgo-backend/config"
 
 	"github.com/gin-gonic/gin"
 )

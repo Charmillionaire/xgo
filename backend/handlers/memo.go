@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"xgogo-backend/config"
+	"xgo-backend/config"
 
 	"github.com/golang-jwt/jwt/v5"
 	socketio "github.com/googollee/go-socket.io"

@@ -3,9 +3,9 @@ package handlers
 import (
 	"crypto/rand"
 	"errors"
-	"xgogo-backend/config"
-	"xgogo-backend/models"
-	"xgogo-backend/utils"
+	"xgo-backend/config"
+	"xgo-backend/models"
+	"xgo-backend/utils"
 	"fmt"
 	"image"
 	_ "image/gif"

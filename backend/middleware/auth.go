@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"xgogo-backend/config"
+	"xgo-backend/config"
 	"net/http"
 	"strings"
 

@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"xgogo-backend/config"
+	"xgo-backend/config"
 )
 
 // WeatherPoller periodically fetches weather for all configured cities

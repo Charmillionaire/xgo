@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
-	"xgogo-backend/config"
+	"xgo-backend/config"
 	"log"
 	"os"
 	"path/filepath"
