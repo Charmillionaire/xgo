@@ -4,7 +4,6 @@ import { ref, onMounted, computed, watch } from "vue";
 import { useMainStore } from "../stores/main";
 import type { WidgetConfig } from "@/types";
 import { useWeather } from "@/composables/useWeather";
-import { formatLocationSource } from "@/utils/weather";
 import OverlayMotion from "@/components/base/OverlayMotion.vue";
 
 const cityData = ref<Record<string, string[]> | null>(null);
@@ -34,7 +33,7 @@ const props = defineProps<{
 }>();
 
 const store = useMainStore();
-const { weather, locationSource, networkStatus, fetchWeather } = useWeather({
+const { weather, fetchWeather } = useWeather({
   widget: props.widget,
   pollIntervalMs: 15 * 60 * 1000,
 });
@@ -98,19 +97,6 @@ const weatherType = computed(() => {
 
 const isBrightWeather = computed(() => {
   return ["snow", "cloudy", "fog"].includes(weatherType.value);
-});
-
-const networkStatusText = computed(() => {
-  switch (networkStatus.value) {
-    case "online":
-      return "网络正常";
-    case "degraded":
-      return "网络波动";
-    case "offline":
-      return "网络离线";
-    default:
-      return "网络未知";
-  }
 });
 
 // 计算背景样式
@@ -288,10 +274,6 @@ onMounted(() => {
       class="relative z-10 h-full flex flex-col items-center p-4 transition-all"
       :class="showForecast ? 'justify-between' : 'justify-center'"
     >
-      <!-- Location Source Hint -->
-      <div class="absolute bottom-1 left-2 text-[10px] text-white/40 z-20 select-none pointer-events-none">
-        {{ formatLocationSource(locationSource) }} · {{ networkStatusText }}
-      </div>
       <div class="flex flex-col items-center justify-center" :class="{ 'flex-1': showForecast }">
         <div
           class="text-4xl sm:text-5xl font-bold tracking-tighter mb-2"

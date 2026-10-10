@@ -247,11 +247,6 @@ const isHovered = ref(false);
       @click="toggleStyle"
     >
       <div
-        class="absolute right-0 bottom-0 text-7xl md:text-9xl font-bold opacity-5 pointer-events-none select-none leading-none -mb-4 -mr-4"
-      >
-        {{ dayNum }}
-      </div>
-      <div
         class="w-1/3 h-full flex flex-col items-start justify-center border-r border-white/10 bg-black/5 flex-shrink-0 pl-4"
       >
         <div class="text-sm md:text-base font-bold shadow-text opacity-90 mb-1">
@@ -264,11 +259,6 @@ const isHovered = ref(false);
       <div
         class="flex-1 h-full flex flex-col justify-center px-3 z-10 min-w-0 relative overflow-hidden"
       >
-        <div
-          class="absolute left-0 top-0 text-7xl md:text-9xl font-bold opacity-5 pointer-events-none select-none leading-none -mt-4 -ml-4"
-        >
-          {{ now.getMonth() + 1 }}
-        </div>
         <div class="text-[10px] md:text-xs opacity-60 tracking-widest uppercase mb-0.5">
           {{ yearMonth }}
         </div>
