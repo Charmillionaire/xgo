@@ -2518,8 +2518,18 @@ const getLayoutConfig = (group: NavGroup) => {
     if (minH > v_h) v_h = minH;
   }
 
-  const h_w = 220 * finalScale;
-  const h_h = 80 * finalScale;
+  const isLabelGroup =
+    isHorizontal &&
+    (group.iconShape || store.appConfig.iconShape) === "hidden" &&
+    group.items?.some((i) => !String(i.icon || "").trim());
+
+  let h_w = 220 * finalScale;
+  let h_h = 80 * finalScale;
+
+  if (isLabelGroup) {
+    h_w = Math.max(160, Math.round(160 * ratio));
+    h_h = Math.max(42, Math.round(44 * ratio));
+  }
 
   return {
     minWidth: isHorizontal ? h_w : v_w,
@@ -3777,7 +3787,9 @@ onUnmounted(() => {
                     : '',
                   isEditMode ? 'animate-pulse cursor-move ring-2 ring-blue-400' : '',
                   (group.cardLayout || store.appConfig.cardLayout) === 'horizontal'
-                    ? 'flex-row px-4 py-3 gap-3 justify-start'
+                    ? isLabelCard(group, item)
+                      ? 'flex-row px-2.5 py-2 gap-1 justify-center'
+                      : 'flex-row px-4 py-3 gap-3 justify-start'
                     : 'flex-col justify-center',
                   (group.iconShape || store.appConfig.iconShape) === 'circle'
                     ? 'rounded-2xl'
