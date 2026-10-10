@@ -13,7 +13,7 @@ import {
 } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
 import { GridLayout, GridItem } from "grid-layout-plus";
-import { useStorage, useWindowSize, useIntervalFn } from "@vueuse/core";
+import { useStorage, useWindowSize, useIntervalFn, onClickOutside } from "@vueuse/core";
 import { useMainStore } from "../stores/main";
 import { useWallpaperRotation } from "../composables/useWallpaperRotation";
 import { useDevice } from "../composables/useDevice";
@@ -527,6 +527,21 @@ const effectiveEngine = computed({
 });
 const searchText = ref("");
 const searchInputRef = ref<HTMLInputElement | null>(null);
+
+// 搜索引擎下拉：原生 select 的弹层由系统绘制、无法控制样式，
+// 改成自定义下拉，才能保证面板不透明、与应用其他部分协调
+const engineDropdownOpen = ref(false);
+const engineSelectRef = ref<HTMLElement | null>(null);
+onClickOutside(engineSelectRef, () => {
+  engineDropdownOpen.value = false;
+});
+const currentEngineLabel = computed(
+  () => engines.value.find((e) => e.key === effectiveEngine.value)?.label || "搜索",
+);
+const selectEngine = (key: string) => {
+  effectiveEngine.value = key;
+  engineDropdownOpen.value = false;
+};
 
 const hexToRgb = (hex: string) => {
   let h = hex.trim();
@@ -3160,16 +3175,84 @@ onUnmounted(() => {
                   (engines.find((e) => e.key === effectiveEngine)?.label || '搜索') + ' 搜索...'
                 "
               />
-              <div class="flex items-center justify-end flex-shrink-0">
-                <select
-                  v-model="effectiveEngine"
+              <div
+                ref="engineSelectRef"
+                class="flex items-center justify-end flex-shrink-0 relative"
+              >
+                <button
+                  type="button"
                   aria-label="搜索引擎"
-                  class="h-[34px] py-0 bg-transparent rounded-full outline-none xgo-search-select flex-shrink-0"
-                  :style="{ width: 'auto', fontSize: '15px' }"
-                  @click.stop
+                  aria-haspopup="listbox"
+                  :aria-expanded="engineDropdownOpen"
+                  class="h-[34px] bg-transparent rounded-full outline-none xgo-search-select flex items-center justify-center gap-2 flex-shrink-0 transition-colors"
+                  :style="{ fontSize: '15px' }"
+                  @click.stop="engineDropdownOpen = !engineDropdownOpen"
                 >
-                  <option v-for="e in engines" :key="e.key" :value="e.key">{{ e.label }}</option>
-                </select>
+                  <span class="truncate">{{ currentEngineLabel }}</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-3.5 h-3.5 flex-shrink-0 transition-transform duration-200"
+                    :class="{ 'rotate-180': engineDropdownOpen }"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+
+                <transition
+                  enter-active-class="transition duration-200 ease-out"
+                  enter-from-class="transform scale-95 opacity-0 -translate-y-2"
+                  enter-to-class="transform scale-100 opacity-100 translate-y-0"
+                  leave-active-class="transition duration-150 ease-in"
+                  leave-from-class="transform scale-100 opacity-100 translate-y-0"
+                  leave-to-class="transform scale-95 opacity-0 -translate-y-2"
+                >
+                  <div
+                    v-if="engineDropdownOpen"
+                    role="listbox"
+                    aria-label="搜索引擎"
+                    class="absolute right-0 top-full mt-2 w-[140px] bg-white rounded-xl shadow-xl border border-gray-100 z-[130] overflow-hidden origin-top-right"
+                  >
+                    <div class="max-h-[280px] overflow-y-auto custom-scrollbar py-1.5">
+                      <button
+                        v-for="e in engines"
+                        :key="e.key"
+                        type="button"
+                        role="option"
+                        :aria-selected="effectiveEngine === e.key"
+                        class="w-full text-left px-4 py-2 text-[13px] transition-colors flex items-center justify-between gap-2"
+                        :class="
+                          effectiveEngine === e.key
+                            ? 'text-blue-600 font-bold bg-blue-50/50'
+                            : 'text-gray-600 hover:bg-gray-50'
+                        "
+                        @click.stop="selectEngine(e.key)"
+                      >
+                        <span class="truncate">{{ e.label }}</span>
+                        <svg
+                          v-if="effectiveEngine === e.key"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-3.5 h-3.5 flex-shrink-0"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </transition>
               </div>
             </form>
           </div>
@@ -4409,26 +4492,30 @@ onUnmounted(() => {
 .xgo-search-input {
   padding-left: 46px;
 }
-/* 搜索引擎下拉：去掉原生外观，换成细箭头，文字紧贴箭头 */
+/* 搜索引擎下拉：自定义面板，避免原生 select 弹层无法控制样式 */
 .xgo-search-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: transparent;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 14px 14px;
-  border: none;
-  padding-left: 8px;
-  padding-right: 26px;
-  text-align: right;
+  padding-left: 10px;
+  padding-right: 4px;
   cursor: pointer;
 }
-/* 下拉选项：半透明底 */
-.xgo-search-select option {
-  background-color: rgba(255, 255, 255, 0.86);
-  color: #1a1a1a;
+.xgo-search-select:hover {
+  color: #111827;
+}
+.xgo-search-select svg {
+  color: #9ca3af;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.3);
+  border-radius: 2px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.5);
 }
 .card-item {
   border-color: var(--card-border-color);
