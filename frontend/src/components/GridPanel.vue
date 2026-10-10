@@ -4032,14 +4032,16 @@ onUnmounted(() => {
                       'truncate font-medium leading-tight flex items-center',
                     ]"
                     :style="{
-                      color:
-                        item.titleColor ||
-                        (item.backgroundImage || group.backgroundImage
-                          ? '#ffffff'
-                          : group.cardTitleColor || store.appConfig.cardTitleColor || '#111827'),
+                      color: isLabelCard(group, item)
+                        ? '#111827'
+                        : item.titleColor ||
+                          (item.backgroundImage || group.backgroundImage
+                            ? '#ffffff'
+                            : group.cardTitleColor || store.appConfig.cardTitleColor || '#111827'),
                       fontSize: group.cardTitleSize ? group.cardTitleSize + 'px' : undefined,
-                      textShadow:
-                        item.backgroundImage || group.backgroundImage
+                      textShadow: isLabelCard(group, item)
+                        ? 'none'
+                        : item.backgroundImage || group.backgroundImage
                           ? '0 1px 2px rgba(0,0,0,0.8)'
                           : 'none',
                       opacity:
@@ -4128,14 +4130,16 @@ onUnmounted(() => {
                   class="font-medium truncate relative z-10"
                   :class="'text-center px-2 w-full'"
                   :style="{
-                    color:
-                      item.titleColor ||
-                      (item.backgroundImage || group.backgroundImage
-                        ? '#ffffff'
-                        : group.cardTitleColor || store.appConfig.cardTitleColor || '#111827'),
+                    color: isLabelCard(group, item)
+                      ? '#111827'
+                      : item.titleColor ||
+                        (item.backgroundImage || group.backgroundImage
+                          ? '#ffffff'
+                          : group.cardTitleColor || store.appConfig.cardTitleColor || '#111827'),
                     fontSize: group.cardTitleSize ? group.cardTitleSize + 'px' : undefined,
-                    textShadow:
-                      item.backgroundImage || group.backgroundImage
+                    textShadow: isLabelCard(group, item)
+                      ? 'none'
+                      : item.backgroundImage || group.backgroundImage
                         ? '0 2px 4px rgba(0,0,0,0.8)'
                         : 'none',
                   }"
