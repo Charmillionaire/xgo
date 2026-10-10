@@ -2527,8 +2527,8 @@ const getLayoutConfig = (group: NavGroup) => {
   let h_h = 80 * finalScale;
 
   if (isLabelGroup) {
-    h_w = Math.max(160, Math.round(160 * ratio));
-    h_h = Math.max(42, Math.round(44 * ratio));
+    h_w = Math.max(110, Math.round(110 * ratio));
+    h_h = Math.max(36, Math.round(38 * ratio));
   }
 
   return {
@@ -3788,7 +3788,7 @@ onUnmounted(() => {
                   isEditMode ? 'animate-pulse cursor-move ring-2 ring-blue-400' : '',
                   (group.cardLayout || store.appConfig.cardLayout) === 'horizontal'
                     ? isLabelCard(group, item)
-                      ? 'flex-row px-2.5 py-2 gap-1 justify-center'
+                      ? 'flex-row px-2 py-1.5 gap-1 justify-center'
                       : 'flex-row px-4 py-3 gap-3 justify-start'
                     : 'flex-col justify-center',
                   (group.iconShape || store.appConfig.iconShape) === 'circle'
