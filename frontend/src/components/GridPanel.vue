@@ -3184,7 +3184,7 @@ onUnmounted(() => {
                   aria-label="搜索引擎"
                   aria-haspopup="listbox"
                   :aria-expanded="engineDropdownOpen"
-                  class="h-[34px] bg-transparent rounded-full outline-none xgo-search-select flex items-center justify-center gap-2 flex-shrink-0 transition-colors"
+                  class="h-[34px] bg-transparent rounded-full outline-none xgo-search-select flex items-center justify-center gap-5 flex-shrink-0 transition-colors"
                   :style="{ fontSize: '15px' }"
                   @click.stop="engineDropdownOpen = !engineDropdownOpen"
                 >
@@ -4495,7 +4495,7 @@ onUnmounted(() => {
 /* 搜索引擎下拉：自定义面板，避免原生 select 弹层无法控制样式 */
 .xgo-search-select {
   padding-left: 10px;
-  padding-right: 4px;
+  padding-right: 16px;
   cursor: pointer;
 }
 .xgo-search-select:hover {
