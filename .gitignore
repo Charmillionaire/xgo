@@ -71,7 +71,6 @@
 .fnsync_temp_dir
 .fnsync_temp_dir/
 .fusebox/
-.github
 .grunt
 .lock-wscript
 .next
