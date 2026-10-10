@@ -3154,18 +3154,18 @@ onUnmounted(() => {
                 aria-label="搜索框"
                 autocomplete="off"
                 autofocus
-                class="h-full pl-6 pr-4 rounded-full bg-transparent border-0 outline-none xgo-search-input"
-                :style="{ width: 'calc(100% - 33.75%)' }"
+                class="h-full pr-4 rounded-full bg-transparent border-0 outline-none xgo-search-input flex-1"
+                :style="{ minWidth: '0' }"
                 :placeholder="
                   (engines.find((e) => e.key === effectiveEngine)?.label || '搜索') + ' 搜索...'
                 "
               />
-              <div class="flex items-center justify-end" :style="{ width: '33.75%' }">
+              <div class="flex items-center justify-end flex-shrink-0">
                 <select
                   v-model="effectiveEngine"
                   aria-label="搜索引擎"
-                  class="h-[34px] px-3 py-0 bg-transparent rounded-full border border-gray-200 focus:border-blue-400 outline-none xgo-search-select"
-                  :style="{ width: 'calc(100%)', fontSize: '15px' }"
+                  class="h-[34px] py-0 bg-transparent rounded-full outline-none xgo-search-select flex-shrink-0"
+                  :style="{ width: 'auto', fontSize: '15px' }"
                   @click.stop
                 >
                   <option v-for="e in engines" :key="e.key" :value="e.key">{{ e.label }}</option>
@@ -4385,6 +4385,50 @@ onUnmounted(() => {
 }
 .xgo-search-input::placeholder {
   color: var(--xgo-search-placeholder-color, rgba(107, 114, 128, 1));
+}
+/* 搜索框：左侧放大镜图标 */
+.xgo-search-form {
+  position: relative;
+}
+.xgo-search-form::before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 3;
+}
+/* 输入框为放大镜让位 */
+.xgo-search-input {
+  padding-left: 46px;
+}
+/* 搜索引擎下拉：去掉原生外观，换成细箭头，文字紧贴箭头 */
+.xgo-search-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 14px 14px;
+  border: none;
+  padding-left: 8px;
+  padding-right: 26px;
+  text-align: right;
+  cursor: pointer;
+}
+/* 下拉选项：半透明底 */
+.xgo-search-select option {
+  background-color: rgba(255, 255, 255, 0.86);
+  color: #1a1a1a;
 }
 .card-item {
   border-color: var(--card-border-color);
