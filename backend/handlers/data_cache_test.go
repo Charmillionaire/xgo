@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"flatnasgo-backend/config"
-	"flatnasgo-backend/models"
+	"xgogo-backend/config"
+	"xgogo-backend/models"
 
 	"github.com/gin-gonic/gin"
 )

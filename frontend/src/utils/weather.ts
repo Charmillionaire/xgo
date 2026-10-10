@@ -76,7 +76,7 @@ export function safeReadCachedCity(cacheStr: string | null): CachedCityData | nu
 }
 
 export function safeWriteCachedCity(payload: CachedCityData): void {
-  localStorage.setItem("flatnas_auto_city", JSON.stringify(payload));
+  localStorage.setItem("xgo_auto_city", JSON.stringify(payload));
 }
 
 export function formatLocationSource(source: "auto" | "manual" | "cache" | "fallback"): string {

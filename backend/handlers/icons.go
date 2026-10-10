@@ -21,7 +21,7 @@ import (
 	"sync"
 	"time"
 
-	"flatnasgo-backend/config"
+	"xgogo-backend/config"
 
 	"github.com/gin-gonic/gin"
 )

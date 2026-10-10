@@ -1,10 +1,10 @@
-# FlatNas
+# Xgo
 
-[![GitHub](https://img.shields.io/badge/GitHub-FlatNas-181717?style=flat&logo=github&logoColor=white)](https://github.com/Garry-QD/FlatNas)
-[![Gitee](https://img.shields.io/badge/Gitee-FlatNas-C71D23?style=flat&logo=gitee&logoColor=white)](https://gitee.com/gjx0808/FlatNas)
-[![Docker Image](https://img.shields.io/badge/Docker-qdnas%2Fflatnas-2496ED?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/r/qdnas/flatnas)
+[![GitHub](https://img.shields.io/badge/GitHub-Xgo-181717?style=flat&logo=github&logoColor=white)](https://github.com/Garry-QD/Xgo)
+[![Gitee](https://img.shields.io/badge/Gitee-Xgo-C71D23?style=flat&logo=gitee&logoColor=white)](https://gitee.com/gjx0808/Xgo)
+[![Docker Image](https://img.shields.io/badge/Docker-qdnas%2Fxgo-2496ED?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/r/qdnas/xgo)
 
-FlatNas 是一个轻量级、高度可定制的个人导航页与仪表盘系统。它基于 Vue 3 与 Go(Gin) 构建，旨在为 NAS 用户、极客和开发者提供一个优雅的浏览器起始页。
+Xgo 是一个轻量级、高度可定制的个人导航页与仪表盘系统。它基于 Vue 3 与 Go(Gin) 构建，旨在为 NAS 用户、极客和开发者提供一个优雅的浏览器起始页。
 交流QQ群:613835409
 ![debian/1.png](public/1.png)
 ![debian/7.png](public/7.png)
@@ -29,7 +29,7 @@ FlatNas 是一个轻量级、高度可定制的个人导航页与仪表盘系统
 
 ### 🧩 丰富的小组件
 
-FlatNas 内置了多种实用的小组件，满足日常需求：
+Xgo 内置了多种实用的小组件，满足日常需求：
 ![tools.png](public/tools.png)
 
 - **文件传输助手**: 强大的跨设备传输工具。支持发送文本、文件与图片；支持断点续传、大文件上传；提供专属**图片**视图，自动归类并预览所有图片文件。
@@ -50,7 +50,7 @@ FlatNas 内置了多种实用的小组件，满足日常需求：
 
 ### 🎨 个性化定制
 
-FlatNas 提供了丰富的自定义选项，并自建了60000个图标的图标库，满足不同用户的需求：
+Xgo 提供了丰富的自定义选项，并自建了60000个图标的图标库，满足不同用户的需求：
 ![icon.png](public/icon.png)
 
 - **自定义组件**: 支持添加自定义 HTML 组件，实现更多功能。
@@ -70,7 +70,7 @@ FlatNas 提供了丰富的自定义选项，并自建了60000个图标的图标�
 
 ## 🌐 代理配置
 
-FlatNas 支持通过后端代理转发请求，以解决内网服务无法直接访问外网资源的问题，或实现简单的隐私保护。
+Xgo 支持通过后端代理转发请求，以解决内网服务无法直接访问外网资源的问题，或实现简单的隐私保护。
 
 ### 启用方法
 
@@ -85,7 +85,7 @@ FlatNas 支持通过后端代理转发请求，以解决内网服务无法直接
    ```
 
 2. **前端开启**
-   当环境变量配置正确后，在卡片编辑或万能窗口配置中，会显示“代理”开关。开启后，该组件的所有请求将通过 FlatNas 后端服务器代为转发。
+   当环境变量配置正确后，在卡片编辑或万能窗口配置中，会显示“代理”开关。开启后，该组件的所有请求将通过 Xgo 后端服务器代为转发。
 
 ### 调试与排查
 
@@ -97,7 +97,7 @@ FlatNas 支持通过后端代理转发请求，以解决内网服务无法直接
 
 ## 🌐 智能网络环境检测
 
-FlatNas 后端集成了智能网络环境识别功能，能够根据用户的访问来源自动切换内外网访问策略，完美解决混合网络环境下的访问难题。
+Xgo 后端集成了智能网络环境识别功能，能够根据用户的访问来源自动切换内外网访问策略，完美解决混合网络环境下的访问难题。
 
 - **多维度识别**: 结合 **客户端 IP**、**访问域名** 和 **网络延迟** 三个维度，精准判断用户当前所处的网络环境（局域网/互联网）。
 - **自动路由**: 当检测到用户处于局域网（LAN）时，系统会自动优先使用配置的 **内网地址 (LanUrl)**，实现高速直连；在公网环境则自动切换至 **外网地址**。
@@ -111,7 +111,7 @@ FlatNas 后端集成了智能网络环境识别功能，能够根据用户的访
 - Nginx / 宝塔反代
 - Cloudflare 代理或 Cloudflare Tunnel
 - FRP / 其他内网穿透
-- 子路径部署，如 `/flatnas/`
+- 子路径部署，如 `/xgo/`
 - 前后端分离部署
 
 请参考专门说明：[`README_NETWORK.md`](README_NETWORK.md)
@@ -123,7 +123,7 @@ FlatNas 后端集成了智能网络环境识别功能，能够根据用户的访
 适用于 Debian/Ubuntu，无需 Docker，脚本会自动下载最新 Release 并完成部署。
 
 ```bash
-wget -O deploy_debian.sh https://raw.githubusercontent.com/Garry-QD/FlatNas/main/deploy_debian.sh
+wget -O deploy_debian.sh https://raw.githubusercontent.com/Garry-QD/Xgo/main/deploy_debian.sh
 chmod +x deploy_debian.sh
 sudo ./deploy_debian.sh
 ```
@@ -133,7 +133,7 @@ sudo ./deploy_debian.sh
 部署完成后，使用管理脚本进行常用运维操作（查看状态、修改端口、配置 HTTPS、查看日志、卸载）。
 
 ```bash
-wget -O manage.sh https://raw.githubusercontent.com/Garry-QD/FlatNas/main/manage.sh
+wget -O manage.sh https://raw.githubusercontent.com/Garry-QD/Xgo/main/manage.sh
 chmod +x manage.sh
 sudo ./manage.sh
 ```
@@ -144,8 +144,8 @@ sudo ./manage.sh
 - 修改端口配置：修改前端端口与后端端口并自动重启服务
 - 配置 HTTPS：写入证书并更新 Nginx 配置
 - 查看实时日志：跟随服务日志
-- 重启所有服务：重启 Nginx 与 FlatNas 服务
-- 卸载服务：彻底卸载 FlatNas、配置与日志
+- 重启所有服务：重启 Nginx 与 Xgo 服务
+- 卸载服务：彻底卸载 Xgo、配置与日志
 
 #### Debian/Ubuntu 卸载（命令行）
 
@@ -161,14 +161,14 @@ sudo ./manage.sh
 
 适用于已能访问服务器的场景，上传 Release 包内容后直接运行。
 
-1. 从 GitHub Releases 下载对应架构的 `flatnas-amd64.zip` 或 `flatnas-arm64.zip`
-2. 上传到服务器并解压到任意目录（例如 `/opt/flatnas`）
+1. 从 GitHub Releases 下载对应架构的 `xgo-amd64.zip` 或 `xgo-arm64.zip`
+2. 上传到服务器并解压到任意目录（例如 `/opt/xgo`）
 3. 进入解压目录并启动服务
 
 ```bash
-cd /opt/flatnas
-chmod +x flatnas-server
-./flatnas-server
+cd /opt/xgo
+chmod +x xgo-server
+./xgo-server
 ```
 
 访问地址：`http://<服务器IP>:3000`
@@ -184,8 +184,8 @@ docker run -d \
   -v $(pwd)/PC:/app/server/PC \
   -v $(pwd)/APP:/app/server/APP \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  --name flatnas \
-  qdnas/flatnas:latest
+  --name xgo \
+  qdnas/xgo:latest
 ```
 
 ### 4. Docker Compose 部署
@@ -194,9 +194,9 @@ docker run -d \
 version: '3.8'
 
 services:
-  flatnas:
-    image: qdnas/flatnas:latest
-    container_name: flatnas
+  xgo:
+    image: qdnas/xgo:latest
+    container_name: xgo
     restart: unless-stopped
     ports:
       - '23000:3000'
@@ -204,7 +204,7 @@ services:
       - HOST=0.0.0.0
       - PORT=3000
       # 如需让后端自己识别子路径，可启用：
-      # - BASE_PATH=/flatnas
+      # - BASE_PATH=/xgo
     volumes:
       - ./data:/app/server/data
       - ./doc:/app/server/doc
@@ -237,7 +237,7 @@ services:
 在 **设置** -> **自定义 CSS** 中，您可以编写全局生效的 CSS 样式。
 
 **增强语法：**
-FlatNas 支持以下自定义标签，自动转换为媒体查询，方便响应式适配：
+Xgo 支持以下自定义标签，自动转换为媒体查询，方便响应式适配：
 
 - `<mobile>...</mobile>`: 仅在移动端生效 (`max-width: 768px`)
 - `<desktop>...</desktop>`: 仅在桌面端生效 (`min-width: 769px`)
@@ -308,4 +308,4 @@ export default {
 
 ---
 
-Enjoy your FlatNas! 🚀
+Enjoy your Xgo! 🚀

@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"flatnasgo-backend/config"
-	"flatnasgo-backend/models"
-	"flatnasgo-backend/utils"
+	"xgogo-backend/config"
+	"xgogo-backend/models"
+	"xgogo-backend/utils"
 	"io/fs"
 	"net/http"
 	"os"

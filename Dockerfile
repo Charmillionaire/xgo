@@ -59,7 +59,7 @@ COPY backend/ .
 # Use ARG TARGETOS and TARGETARCH to support cross-compilation
 ARG TARGETOS
 ARG TARGETARCH
-RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -ldflags="-s -w" -o flatnas-backend .
+RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -ldflags="-s -w" -o xgo-backend .
 
 # Stage 3: Final Image
 FROM alpine:latest
@@ -76,7 +76,7 @@ ENV TZ=Asia/Shanghai \
     BASE_DIR=/app
 
 # Copy backend binary
-COPY --from=backend-builder /app/backend/flatnas-backend .
+COPY --from=backend-builder /app/backend/xgo-backend .
 
 # Copy frontend dist to public directory
 # This includes the built assets and the static files copied from server/public during build
@@ -89,4 +89,4 @@ RUN mkdir -p server/data server/music server/PC server/APP server/doc server/ico
 EXPOSE 3000
 
 # Run the application
-CMD ["./flatnas-backend"]
+CMD ["./xgo-backend"]

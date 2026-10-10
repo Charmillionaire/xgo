@@ -3,9 +3,9 @@ package handlers
 import (
 	"crypto/rand"
 	"errors"
-	"flatnasgo-backend/config"
-	"flatnasgo-backend/models"
-	"flatnasgo-backend/utils"
+	"xgogo-backend/config"
+	"xgogo-backend/models"
+	"xgogo-backend/utils"
 	"fmt"
 	"image"
 	_ "image/gif"

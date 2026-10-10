@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"flatnasgo-backend/config"
+	"xgogo-backend/config"
 	"fmt"
 	"net/http"
 	"os"

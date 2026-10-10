@@ -7,7 +7,7 @@ import { resolveManagedUrl } from "@/utils/runtimeUrls";
 export const useConfigStore = defineStore("config", () => {
   // Pure client-only states (NOT synced to server)
   const forceNetworkMode = useStorage<"auto" | "lan" | "wan" | "latency">(
-    "flatnas-force-network-mode",
+    "xgo-force-network-mode",
     "auto",
   );
   const isExpandedMode = ref(false);
@@ -183,7 +183,7 @@ export const useConfigStore = defineStore("config", () => {
 
       if (shouldCheckRemote) {
         updateCheckLastAt.value = now;
-        const res = await fetch("https://gitee.com/api/v5/repos/gjx0808/FlatNas/tags");
+        const res = await fetch("https://gitee.com/api/v5/repos/gjx0808/Xgo/tags");
         if (res.ok) {
           const data = await res.json();
           if (data.length > 0) {

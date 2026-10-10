@@ -1,4 +1,4 @@
-module flatnasgo-backend
+module xgo-backend
 
 go 1.25.5
 

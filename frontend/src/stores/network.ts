@@ -234,8 +234,8 @@ export const useNetworkStore = defineStore("network", () => {
 
   // ---- Wallpaper ----
   const DEFAULT_WALLPAPER_NAME = "default-wallpaper.svg";
-  const wallpaperListPc = useStorage<string[]>("flatnas-wallpaper-list-pc", [DEFAULT_WALLPAPER_NAME]);
-  const wallpaperListMobile = useStorage<string[]>("flatnas-wallpaper-list-mobile", [DEFAULT_WALLPAPER_NAME]);
+  const wallpaperListPc = useStorage<string[]>("xgo-wallpaper-list-pc", [DEFAULT_WALLPAPER_NAME]);
+  const wallpaperListMobile = useStorage<string[]>("xgo-wallpaper-list-mobile", [DEFAULT_WALLPAPER_NAME]);
 
   const ensureDefaultWallpaperFirst = (list: string[]) => {
     const next = list.filter((name) => typeof name === "string" && name.length > 0);

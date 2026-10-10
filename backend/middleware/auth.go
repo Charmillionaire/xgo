@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"flatnasgo-backend/config"
+	"xgogo-backend/config"
 	"net/http"
 	"strings"
 

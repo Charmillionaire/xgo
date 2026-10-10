@@ -18,14 +18,14 @@ if (-not $SkipBackend) {
         $env:CGO_ENABLED = "0"
         $env:GOOS = "linux"
         $env:GOARCH = "amd64"
-        go build -ldflags="-s -w" -o flatnas-server .
+        go build -ldflags="-s -w" -o xgo-server .
     } finally {
         Remove-Item Env:GOARCH -ErrorAction SilentlyContinue
         Remove-Item Env:GOOS -ErrorAction SilentlyContinue
         Remove-Item Env:CGO_ENABLED -ErrorAction SilentlyContinue
         Pop-Location
     }
-    Copy-Item -Force (Join-Path $repoRoot "backend\flatnas-server") (Join-Path $debianRoot "flatnas-server")
+    Copy-Item -Force (Join-Path $repoRoot "backend\xgo-server") (Join-Path $debianRoot "xgo-server")
 }
 
 if (-not $SkipFrontend) {
@@ -45,4 +45,4 @@ if (-not (Test-Path $srcPublic)) {
 New-Item -ItemType Directory -Force -Path $dstPublic | Out-Null
 robocopy $srcPublic $dstPublic /MIR /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
 if ($LASTEXITCODE -ge 8) { exit $LASTEXITCODE }
-Write-Host "已同步: flatnas-server + server/public -> debian/"
+Write-Host "已同步: xgo-server + server/public -> debian/"

@@ -23,7 +23,7 @@ import type { NavItem, WidgetConfig, NavGroup } from "@/types";
 import OverlayMotion from "@/components/base/OverlayMotion.vue";
 import { isInternalNetwork, getNetworkConfig, computeEffectiveNetworkMode } from "@/utils/network";
 import DOMPurify from "dompurify";
-const CHUNK_RELOAD_KEY = "flatnas:chunk-reload-at";
+const CHUNK_RELOAD_KEY = "xgo:chunk-reload-at";
 const loadAsync = <T extends Component>(loader: AsyncComponentLoader<T>) =>
   defineAsyncComponent({
     loader,
@@ -139,7 +139,7 @@ const showRainEffect = computed(() => weatherEffectEnabled.value && isRainWeathe
 
 const getWeatherCity = () => {
   try {
-    const cached = localStorage.getItem("flatnas_auto_city");
+    const cached = localStorage.getItem("xgo_auto_city");
     if (cached) {
       const data = JSON.parse(cached);
       if (data?.city) return data.city;
@@ -2652,7 +2652,7 @@ const formattedLocation = computed(() => {
 });
 
 const fetchIp = async (force = false) => {
-  const CACHE_KEY = `flatnas_ip_cache:${networkScope}`;
+  const CACHE_KEY = `xgo_ip_cache:${networkScope}`;
   const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in ms
   const initialIsLanMode = isLanMode.value;
   store.ipFetchStatus = "loading";
@@ -2773,7 +2773,7 @@ const fetchIp = async (force = false) => {
 const updateCache = () => {
   if (ipInfo.value.baiduLatency !== "...") {
     localStorage.setItem(
-      `flatnas_ip_cache:${networkScope}`,
+      `xgo_ip_cache:${networkScope}`,
       JSON.stringify({
         timestamp: Date.now(),
         data: ipInfo.value,
@@ -2869,7 +2869,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flatnas-handshake-signal" style="display: none !important"></div>
+  <div class="xgo-handshake-signal" style="display: none !important"></div>
   <div
     class="min-h-dvh relative overflow-hidden flex flex-col pt-[env(safe-area-inset-top)]"
     :class="{ 'empire-theme': store.appConfig.empireMode }"
@@ -3021,7 +3021,7 @@ onUnmounted(() => {
     >
       <div class="mx-auto transition-all duration-300" :style="{ maxWidth: mainContentMaxWidth }">
         <div
-          class="flex flex-col xl:flex-row xl:justify-between items-center gap-6 relative flatnas-header-container"
+          class="flex flex-col xl:flex-row xl:justify-between items-center gap-6 relative xgo-header-container"
           :class="isWebPaginationMode ? 'mb-4' : 'mb-4'"
         >
           <div
@@ -3131,13 +3131,13 @@ onUnmounted(() => {
             :class="isWideLayout ? 'xl:w-[32rem]' : 'xl:w-64'"
           >
             <form
-              class="mx-auto shadow-lg hover:shadow-xl transition-shadow rounded-full bg-white/90 backdrop-blur-md border border-white/40 flex items-center p-1 flatnas-search-form"
+              class="mx-auto shadow-lg hover:shadow-xl transition-shadow rounded-full bg-white/90 backdrop-blur-md border border-white/40 flex items-center p-1 xgo-search-form"
               :style="{
                 width: '100%',
                 height: '41px',
                 backgroundColor: `rgba(255, 255, 255, ${searchBgAlpha})`,
-                '--flatnas-search-text-color': searchTextColor,
-                '--flatnas-search-placeholder-color': searchPlaceholderColor,
+                '--xgo-search-text-color': searchTextColor,
+                '--xgo-search-placeholder-color': searchPlaceholderColor,
               }"
               @submit.prevent="doSearch"
               action="."
@@ -3154,7 +3154,7 @@ onUnmounted(() => {
                 aria-label="搜索框"
                 autocomplete="off"
                 autofocus
-                class="h-full pl-6 pr-4 rounded-full bg-transparent border-0 outline-none flatnas-search-input"
+                class="h-full pl-6 pr-4 rounded-full bg-transparent border-0 outline-none xgo-search-input"
                 :style="{ width: 'calc(100% - 33.75%)' }"
                 :placeholder="
                   (engines.find((e) => e.key === effectiveEngine)?.label || '搜索') + ' 搜索...'
@@ -3164,7 +3164,7 @@ onUnmounted(() => {
                 <select
                   v-model="effectiveEngine"
                   aria-label="搜索引擎"
-                  class="h-[34px] px-3 py-0 bg-transparent rounded-full border border-gray-200 focus:border-blue-400 outline-none flatnas-search-select"
+                  class="h-[34px] px-3 py-0 bg-transparent rounded-full border border-gray-200 focus:border-blue-400 outline-none xgo-search-select"
                   :style="{ width: 'calc(100%)', fontSize: '15px' }"
                   @click.stop
                 >
@@ -3175,7 +3175,7 @@ onUnmounted(() => {
           </div>
 
           <div
-            class="flex gap-1 xl:gap-3 flex-shrink-0 z-10 items-center transition-all duration-500 flatnas-handshake-signal absolute left-0 top-0 w-full xl:w-auto xl:static opacity-80 hover:opacity-100 xl:opacity-100 pointer-events-none xl:pointer-events-auto"
+            class="flex gap-1 xl:gap-3 flex-shrink-0 z-10 items-center transition-all duration-500 xgo-handshake-signal absolute left-0 top-0 w-full xl:w-auto xl:static opacity-80 hover:opacity-100 xl:opacity-100 pointer-events-none xl:pointer-events-auto"
             :style="{ order: isHeaderRowLayout && store.appConfig.titleAlign === 'right' ? 0 : 2 }"
           >
             <MiniPlayer
@@ -4379,12 +4379,12 @@ onUnmounted(() => {
 .shadow-text {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
-.flatnas-search-input,
-.flatnas-search-select {
-  color: var(--flatnas-search-text-color, #111827);
+.xgo-search-input,
+.xgo-search-select {
+  color: var(--xgo-search-text-color, #111827);
 }
-.flatnas-search-input::placeholder {
-  color: var(--flatnas-search-placeholder-color, rgba(107, 114, 128, 1));
+.xgo-search-input::placeholder {
+  color: var(--xgo-search-placeholder-color, rgba(107, 114, 128, 1));
 }
 .card-item {
   border-color: var(--card-border-color);

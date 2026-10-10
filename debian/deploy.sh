@@ -2,7 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# FlatNas Debian 离线部署脚本 (全能版)
+# Xgo Debian 离线部署脚本 (全能版)
 # 功能：安装 (install) / 卸载 (uninstall) / 回滚 (rollback)
 # 说明：
 #   本脚本用于离线部署，使用 debian/ 目录下的本地文件进行安装。
@@ -15,7 +15,7 @@ IFS=$'\n\t'
 #   sudo ./deploy.sh
 #
 # 前置要求：
-#   - debian/ 目录下应包含 flatnas-server 二进制和 server/ 目录。
+#   - debian/ 目录下应包含 xgo-server 二进制和 server/ 目录。
 
 MODE="${1:-install}"
 
@@ -31,11 +31,11 @@ case "${ARCH_RAW}" in
   *)       ARCH="" ;;
 esac
 
-APP_NAME="flatnas"
-APP_USER="flatnas"
-SERVICE_NAME="flatnas"
+APP_NAME="xgo"
+APP_USER="xgo"
+SERVICE_NAME="xgo"
 BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
-BIN_SRC="${BASE_DIR}/flatnas-server"
+BIN_SRC="${BASE_DIR}/xgo-server"
 SERVER_SRC="${BASE_DIR}/server"
 
 INSTALL_DIR="/opt/${APP_NAME}"
@@ -220,7 +220,7 @@ write_systemd_service() {
 
   cat > "${SYSTEMD_SERVICE}" <<EOF
 [Unit]
-Description=FlatNas Go Service
+Description=Xgo Go Service
 After=network.target
 
 [Service]
@@ -440,14 +440,14 @@ install_flow() {
   fi
 
   if [ ! -f "${BIN_SRC}" ]; then
-    fail_with_tip "未找到二进制文件: ${BIN_SRC}" "请确保 debian/ 目录下包含 flatnas-server"
+    fail_with_tip "未找到二进制文件: ${BIN_SRC}" "请确保 debian/ 目录下包含 xgo-server"
   fi
   if [ ! -d "${SERVER_SRC}/public" ]; then
     fail_with_tip "未找到前端静态目录: ${SERVER_SRC}/public" "请确保 debian/server/public 目录存在"
   fi
 
   echo "=============================="
-  echo "   FlatNas 离线部署脚本"
+  echo "   Xgo 离线部署脚本"
   echo "   架构: ${ARCH}"
   echo "=============================="
 
@@ -529,7 +529,7 @@ uninstall_flow() {
   require_root
 
   echo "!!!"
-  echo "警告：此操作将完全删除 FlatNas 服务、配置文件、日志及数据！"
+  echo "警告：此操作将完全删除 Xgo 服务、配置文件、日志及数据！"
   echo "!!!"
 
   if ! confirm_twice "确定要卸载吗？"; then

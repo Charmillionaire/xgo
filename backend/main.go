@@ -1,10 +1,10 @@
 package main
 
 import (
-	"flatnasgo-backend/config"
-	"flatnasgo-backend/handlers"
-	"flatnasgo-backend/middleware"
-	"flatnasgo-backend/ws"
+	"xgo-backend/config"
+	"xgo-backend/handlers"
+	"xgo-backend/middleware"
+	"xgo-backend/ws"
 	"fmt"
 	"log"
 	"mime"

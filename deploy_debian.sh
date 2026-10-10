@@ -2,24 +2,24 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# FlatNas Debian 部署脚本 (全能版)
+# Xgo Debian 部署脚本 (全能版)
 # 功能：安装 (install) / 卸载 (uninstall) / 回滚 (rollback)
 # 说明：
 #   本脚本基于 debian/deploy.sh 和 debian/manage.sh 整合优化而来。
 #   支持从 GitHub Releases 自动拉取最新版本进行一键部署。
-#   自动检测系统架构 (amd64/arm64)，下载对应的 flatnas-{arch}.zip。
+#   自动检测系统架构 (amd64/arm64)，下载对应的 xgo-{arch}.zip。
 #   包含安全卸载和版本回滚功能。
 #
 # 使用方式：
 #   1. 下载脚本：
-#      wget -O deploy_debian.sh https://raw.githubusercontent.com/Garry-QD/FlatNas/main/deploy_debian.sh
+#      wget -O deploy_debian.sh https://raw.githubusercontent.com/Garry-QD/Xgo/main/deploy_debian.sh
 #   2. 运行安装：
 #      chmod +x deploy_debian.sh
 #      sudo ./deploy_debian.sh
 #
 # 前置要求：
-#   - 确保 GitHub 仓库 (Garry-QD/FlatNas) 发布了包含 flatnas-amd64.zip / flatnas-arm64.zip 的 Release。
-#   - zip 包应包含 flatnas-server 二进制和 server/public 目录。
+#   - 确保 GitHub 仓库 (Garry-QD/Xgo) 发布了包含 xgo-amd64.zip / xgo-arm64.zip 的 Release。
+#   - zip 包应包含 xgo-server 二进制和 server/public 目录。
 
 MODE="${1:-install}"
 
@@ -35,9 +35,9 @@ case "${ARCH_RAW}" in
   *)       ARCH="" ;;
 esac
 
-APP_NAME="flatnas"
-APP_USER="flatnas"
-SERVICE_NAME="flatnas"
+APP_NAME="xgo"
+APP_USER="xgo"
+SERVICE_NAME="xgo"
 BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # 默认安装路径
@@ -231,7 +231,7 @@ write_systemd_service() {
   
   cat > "${SYSTEMD_SERVICE}" <<EOF
 [Unit]
-Description=FlatNas Go Service
+Description=Xgo Go Service
 After=network.target
 
 [Service]
@@ -530,7 +530,7 @@ install_flow() {
   fi
   
   echo "=============================="
-  echo "   FlatNas 一键部署脚本"
+  echo "   Xgo 一键部署脚本"
   echo "   架构: ${ARCH}"
   echo "=============================="
   
@@ -568,31 +568,31 @@ install_flow() {
   # 注册清理函数，确保退出时删除临时目录
   trap 'rm -rf "${tmp_dir}"' EXIT
 
-  local download_url="https://github.com/Garry-QD/FlatNas/releases/latest/download/flatnas-${ARCH}.zip"
-  local zip_file="${tmp_dir}/flatnas-${ARCH}.zip"
+  local download_url="https://github.com/Garry-QD/Xgo/releases/latest/download/xgo-${ARCH}.zip"
+  local zip_file="${tmp_dir}/xgo-${ARCH}.zip"
   
   log_info "下载: ${download_url}"
   if ! wget -O "${zip_file}" "${download_url}"; then
-    fail_with_tip "下载失败，请检查网络或确认 GitHub Release 是否存在 flatnas-${ARCH}.zip"
+    fail_with_tip "下载失败，请检查网络或确认 GitHub Release 是否存在 xgo-${ARCH}.zip"
   fi
   
   log_info "解压资源..."
   unzip -q "${zip_file}" -d "${tmp_dir}/source"
   
-  # 自动寻找包含 flatnas-server 的目录
+  # 自动寻找包含 xgo-server 的目录
   local source_dir=""
   local binary_src=""
   
   # 深度为 2 的搜索，防止 zip 包有一层文件夹
   local found_bin
-  found_bin="$(find "${tmp_dir}/source" -maxdepth 2 -type f -name "flatnas-server" | head -n 1)"
+  found_bin="$(find "${tmp_dir}/source" -maxdepth 2 -type f -name "xgo-server" | head -n 1)"
   
   if [ -n "${found_bin}" ]; then
     binary_src="${found_bin}"
     source_dir="$(dirname "${binary_src}")"
   else
-    # 尝试找 flatnas (兼容旧命名)
-    found_bin="$(find "${tmp_dir}/source" -maxdepth 2 -type f -name "flatnas" | head -n 1)"
+    # 尝试找 xgo (兼容旧命名)
+    found_bin="$(find "${tmp_dir}/source" -maxdepth 2 -type f -name "xgo" | head -n 1)"
     if [ -n "${found_bin}" ]; then
         binary_src="${found_bin}"
         source_dir="$(dirname "${binary_src}")"
@@ -600,7 +600,7 @@ install_flow() {
   fi
   
   if [ -z "${source_dir}" ]; then
-    fail_with_tip "在下载包中未找到 flatnas-server 二进制文件"
+    fail_with_tip "在下载包中未找到 xgo-server 二进制文件"
   fi
   
   local static_src="${source_dir}/server/public"
@@ -705,7 +705,7 @@ uninstall_flow() {
   require_root
   
   echo "!!!"
-  echo "警告：此操作将完全删除 FlatNas 服务、配置文件、日志及数据！"
+  echo "警告：此操作将完全删除 Xgo 服务、配置文件、日志及数据！"
   echo "!!!"
   
   if ! confirm_twice "确定要卸载吗？"; then

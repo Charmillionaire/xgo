@@ -2,9 +2,9 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# FlatNas Debian 管理脚本 (优化版)
+# Xgo Debian 管理脚本 (优化版)
 # 说明：
-#   用于管理 FlatNas 服务 (启动/停止/重启/查看日志/修改端口/配置HTTPS)
+#   用于管理 Xgo 服务 (启动/停止/重启/查看日志/修改端口/配置HTTPS)
 #   基于 deploy.sh 的配置结构进行统一
 #
 # 使用方式：
@@ -12,9 +12,9 @@ IFS=$'\n\t'
 #   chmod +x manage.sh
 #   sudo ./manage.sh
 
-APP_NAME="flatnas"
-APP_USER="flatnas"
-SERVICE_NAME="flatnas"
+APP_NAME="xgo"
+APP_USER="xgo"
+SERVICE_NAME="xgo"
 
 INSTALL_DIR="/opt/${APP_NAME}"
 SERVER_DIR="${INSTALL_DIR}/server"
@@ -288,7 +288,7 @@ EOF
 write_systemd_service() {
   cat > "${SYSTEMD_SERVICE}" <<EOF
 [Unit]
-Description=FlatNas Go Service
+Description=Xgo Go Service
 After=network.target
 
 [Service]
@@ -441,7 +441,7 @@ view_logs_flow() {
 
 uninstall_flow() {
   echo "!!!"
-  echo "警告：此操作将完全删除 FlatNas 服务、配置文件、日志及数据！"
+  echo "警告：此操作将完全删除 Xgo 服务、配置文件、日志及数据！"
   echo "!!!"
 
   if ! confirm_twice "确定要卸载吗？"; then
@@ -489,7 +489,7 @@ uninstall_flow() {
 main_menu() {
   while true; do
     echo "=============================="
-    echo "   FlatNas 管理面板"
+    echo "   Xgo 管理面板"
     echo "=============================="
     echo "1. 查看服务状态"
     echo "2. 修改端口配置"

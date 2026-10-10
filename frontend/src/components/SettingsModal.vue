@@ -1149,7 +1149,7 @@ const browserHelperHandshakeLink = computed(() => {
   const origin = window.location.origin;
   const url = new URL(`${origin}/`);
   const params = new URLSearchParams();
-  params.set("flatnas-helper-handshake", "1");
+  params.set("xgo-helper-handshake", "1");
   params.set("origin", origin);
   params.set("token", token);
   params.set("source", "open-center");
@@ -3184,7 +3184,7 @@ watch(activeTab, (val) => {
             </div>
           </div>
 
-          <div v-if="activeTab === 'universal-window'" class="flatnas-handshake-signal space-y-4">
+          <div v-if="activeTab === 'universal-window'" class="xgo-handshake-signal space-y-4">
             <!-- Universal Window Widget Section -->
             <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-4">
               <div class="flex items-center gap-2">
@@ -3204,7 +3204,7 @@ watch(activeTab, (val) => {
             <template v-for="w in store.widgets" :key="'iframe-' + w.id">
               <div
                 v-if="w.type === 'iframe'"
-                class="flatnas-handshake-signal flex flex-col gap-3 p-4 border border-gray-100 rounded-xl hover:shadow-md transition-all glass-card"
+                class="xgo-handshake-signal flex flex-col gap-3 p-4 border border-gray-100 rounded-xl hover:shadow-md transition-all glass-card"
               >
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-4">
@@ -3331,8 +3331,8 @@ watch(activeTab, (val) => {
                   </div>
                   <p class="text-[10px] text-gray-500 mt-1">
                     点击<a
-                      href="/flatnas-helper.zip"
-                      download="flatnas-helper.zip"
+                      href="/xgo-helper.zip"
+                      download="xgo-helper.zip"
                       target="_blank"
                       class="text-blue-500 underline mx-1"
                       >{{ $t('settings.extraSections.downloadBrowserPlugin') }}</a
@@ -3364,7 +3364,7 @@ watch(activeTab, (val) => {
             <template v-for="w in store.widgets" :key="'amap-' + w.id">
               <div
                 v-if="w.type === 'amap-weather'"
-                class="flatnas-handshake-signal flex flex-col gap-3 p-4 border border-gray-100 rounded-xl bg-gray-50 hover:bg-white hover:shadow-md transition-all"
+                class="xgo-handshake-signal flex flex-col gap-3 p-4 border border-gray-100 rounded-xl bg-gray-50 hover:bg-white hover:shadow-md transition-all"
               >
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-4">
@@ -3454,7 +3454,7 @@ watch(activeTab, (val) => {
             <template v-for="w in store.widgets" :key="'cd-' + w.id">
               <div
                 v-if="w.type === 'countdown'"
-                class="flatnas-handshake-signal flex flex-col gap-3 p-4 border border-gray-100 rounded-xl bg-gray-50 hover:bg-white hover:shadow-md transition-all"
+                class="xgo-handshake-signal flex flex-col gap-3 p-4 border border-gray-100 rounded-xl bg-gray-50 hover:bg-white hover:shadow-md transition-all"
               >
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-4">
@@ -3562,7 +3562,7 @@ watch(activeTab, (val) => {
             <template v-for="w in store.widgets" :key="'cup-' + w.id">
               <div
                 v-if="w.type === 'countup'"
-                class="flatnas-handshake-signal flex flex-col gap-3 p-4 border border-gray-100 rounded-xl bg-gray-50 hover:bg-white hover:shadow-md transition-all"
+                class="xgo-handshake-signal flex flex-col gap-3 p-4 border border-gray-100 rounded-xl bg-gray-50 hover:bg-white hover:shadow-md transition-all"
               >
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-4">
@@ -3778,7 +3778,7 @@ watch(activeTab, (val) => {
               <template v-if="browserHelperHandshakeLink">
                 <a
                   :href="browserHelperHandshakeLink"
-                  :data-flatnas-helper-link="browserHelperHandshakeLink"
+                  :data-xgo-helper-link="browserHelperHandshakeLink"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="block w-full px-3 py-2 rounded-lg border border-gray-200 bg-white text-[11px] text-blue-600 break-all hover:border-blue-300 transition-colors"
@@ -4716,11 +4716,11 @@ document.querySelector('.card-item').addEventListener('click', () => {
                   <div class="text-xs text-gray-500">
                     {{ $t('settings.about.officialSite') }}：
                     <a
-                      href="https://flatnas.top/"
+                      href="https://xgo.top/"
                       target="_blank"
                       class="text-gray-600 underline hover:text-gray-900"
                     >
-                      https://flatnas.top/
+                      https://xgo.top/
                     </a>
                   </div>
                   <div class="text-xs text-gray-500">
@@ -4767,7 +4767,7 @@ document.querySelector('.card-item').addEventListener('click', () => {
 
                 <div class="mt-4 flex items-center justify-end gap-6">
                   <a
-                    href="https://github.com/Garry-QD/FlatNas"
+                    href="https://github.com/Garry-QD/Xgo"
                     target="_blank"
                     class="text-gray-700 hover:text-gray-900 hover:opacity-80 transition-opacity"
                     title="GitHub"
@@ -4784,7 +4784,7 @@ document.querySelector('.card-item').addEventListener('click', () => {
                     </svg>
                   </a>
                   <a
-                    href="https://gitee.com/gjx0808/FlatNas"
+                    href="https://gitee.com/gjx0808/Xgo"
                     target="_blank"
                     class="text-gray-700 hover:text-gray-900 hover:opacity-80 transition-opacity"
                     title="Gitee"
@@ -4803,7 +4803,7 @@ document.querySelector('.card-item').addEventListener('click', () => {
                     </svg>
                   </a>
                   <a
-                    href="https://hub.docker.com/r/qdnas/flatnas"
+                    href="https://hub.docker.com/r/qdnas/xgo"
                     target="_blank"
                     class="text-blue-600 hover:text-blue-700 hover:opacity-80 transition-opacity"
                     title="Docker"

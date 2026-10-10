@@ -56,7 +56,7 @@ const scrollToTop = () => {
 watch(
   () => store.appConfig.customTitle,
   (newTitle) => {
-    document.title = newTitle || "FlatNas";
+    document.title = newTitle || "Xgo";
   },
   { immediate: true },
 );
@@ -191,7 +191,7 @@ const customJsRuntime = (() => {
       if (typeof fn === "function") cleanupFns.push(fn);
     },
     on(type: string, handler: (ev: CustomEvent) => void) {
-      const t = `flatnas:${type}`;
+      const t = `xgo:${type}`;
       const wrapped = (e: Event) => handler(e as CustomEvent);
       window.addEventListener(t, wrapped as EventListener);
       const off = () => window.removeEventListener(t, wrapped as EventListener);
@@ -199,7 +199,7 @@ const customJsRuntime = (() => {
       return off;
     },
     emit(type: string, detail?: unknown) {
-      window.dispatchEvent(new CustomEvent(`flatnas:${type}`, { detail }));
+      window.dispatchEvent(new CustomEvent(`xgo:${type}`, { detail }));
     },
   };
 
@@ -249,8 +249,8 @@ const customJsRuntime = (() => {
 
   const setRegister = () => {
     const w = window as unknown as Record<string, unknown>;
-    if (typeof w.FlatNasCustomRegister === "function") return;
-    w.FlatNasCustomRegister = (h: unknown) => {
+    if (typeof w.XgoCustomRegister === "function") return;
+    w.XgoCustomRegister = (h: unknown) => {
       if (!h || typeof h !== "object") return;
       pendingRegister = h as CustomHooks;
     };
@@ -276,7 +276,7 @@ const customJsRuntime = (() => {
     pendingRegister = null;
 
     const w = window as unknown as Record<string, unknown>;
-    w.FlatNasCustomCtx = ctx;
+    w.XgoCustomCtx = ctx;
 
     if (!agreed) return;
 
@@ -297,7 +297,7 @@ const customJsRuntime = (() => {
 
     const tryAdopt = () => {
       if (nonce !== currentNonce) return;
-      const fallback = (w.FlatNasCustom as CustomHooks | undefined) || null;
+      const fallback = (w.XgoCustom as CustomHooks | undefined) || null;
       const next = (pendingRegister || fallback) as CustomHooks | null;
       pendingRegister = null;
       void adoptHooks(next);
@@ -318,8 +318,8 @@ const customJsRuntime = (() => {
       const script = document.createElement("script");
       script.className = scriptClass;
 
-      // Suffix lets module scripts self-register via FlatNasCustomRegister(FlatNasCustom).
-      const suffix = "\n;globalThis.FlatNasCustomRegister?.(globalThis.FlatNasCustom);";
+      // Suffix lets module scripts self-register via XgoCustomRegister(XgoCustom).
+      const suffix = "\n;globalThis.XgoCustomRegister?.(globalThis.XgoCustom);";
 
       if (looksModule) {
         script.type = "module";
@@ -346,12 +346,12 @@ const fetch = async (input, init) => {
   return originalFetch(input, init);
 };`;
         }
-        const wrapped = `;(async () => {\n${proxyCode}\ntry {\n${src}\n} catch (e) {\nconsole.error('[FlatNas Custom JS: ${item.name}]', e);\n}\n})();`;
+        const wrapped = `;(async () => {\n${proxyCode}\ntry {\n${src}\n} catch (e) {\nconsole.error('[Xgo Custom JS: ${item.name}]', e);\n}\n})();`;
         script.textContent = `${wrapped}${suffix}`;
         nonModuleScriptAppended = true;
       }
 
-      script.onerror = (e) => console.error(`[FlatNas Custom JS: ${item.name}] load error:`, e);
+      script.onerror = (e) => console.error(`[Xgo Custom JS: ${item.name}] load error:`, e);
       document.body.appendChild(script);
     });
 
@@ -385,10 +385,10 @@ watch(
 
 onMounted(() => {
   store.initGlobalDrag();
-  const win = window as Window & { __flatnasSaveFetchWrapped?: boolean };
-  if (!win.__flatnasSaveFetchWrapped) {
+  const win = window as Window & { __xgoSaveFetchWrapped?: boolean };
+  if (!win.__xgoSaveFetchWrapped) {
     const originalFetch = window.fetch.bind(window);
-    win.__flatnasSaveFetchWrapped = true;
+    win.__xgoSaveFetchWrapped = true;
     window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
       const resolveUrl = () => {
         if (typeof input === "string") return input;
@@ -448,7 +448,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flatnas-handshake-signal" style="display: none !important"></div>
+  <div class="xgo-handshake-signal" style="display: none !important"></div>
   
   <!-- Network Status Indicator -->
   <NetworkIndicator class="network-indicator-wrapper" />
@@ -604,7 +604,7 @@ onMounted(() => {
   <StatusMonitor v-if="statusMonitorWidget?.enable" :widget="statusMonitorWidget" />
 
   <!-- Global Audio Element for persistent playback across groups -->
-  <audio id="flatnas-global-audio" style="display: none" crossorigin="anonymous"></audio>
+  <audio id="xgo-global-audio" style="display: none" crossorigin="anonymous"></audio>
 </template>
 
 <style>

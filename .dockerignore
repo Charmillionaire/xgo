@@ -9,12 +9,12 @@ docker-compose.yml
 # Dependencies
 node_modules
 frontend/node_modules
-flatnas-helper/node_modules
+xgo-helper/node_modules
 
 # Build Artifacts
 backend/*.exe
-backend/flatnas-backend
-backend/flatnas-linux
+backend/xgo-backend
+backend/xgo-linux
 backend/server.exe
 backend/server_debug.exe
 backend/server_run.exe

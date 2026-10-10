@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"encoding/json"
-	"flatnasgo-backend/config"
-	"flatnasgo-backend/utils"
+	"xgogo-backend/config"
+	"xgogo-backend/utils"
 	"net/http"
 	"os"
 	"path/filepath"
