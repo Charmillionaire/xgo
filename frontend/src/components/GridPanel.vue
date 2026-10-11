@@ -2504,7 +2504,7 @@ const getLayoutConfig = (group: NavGroup) => {
   let h_h = 80 * finalScale;
 
   if (isLabelGroup) {
-    const baseMin = isMobile.value ? 96 : 110;
+    const baseMin = isMobile.value ? 88 : 110;
     h_w = Math.max(baseMin, Math.round(baseMin * ratio));
     h_h = Math.max(36, Math.round(38 * ratio));
   }
