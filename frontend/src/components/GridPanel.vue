@@ -3343,7 +3343,7 @@ onUnmounted(() => {
         <VueDraggable
           v-if="isWebPaginationMode"
           v-model="store.groups"
-          class="mb-3 flex items-center gap-2 overflow-x-auto scrollbar-hide py-1"
+          class="mb-3 flex items-center justify-center gap-2 overflow-x-auto scrollbar-hide py-1 w-full"
           :group="{ name: 'pagination-groups', pull: false, put: false }"
           :sort="isEditMode && !searchText"
           :disabled="!isEditMode || !!searchText"
@@ -3354,11 +3354,12 @@ onUnmounted(() => {
             :key="group.id"
             type="button"
             @click="activePaginationGroupId = group.id"
-            class="shrink-0 h-9 px-3.5 rounded-xl text-sm font-medium backdrop-blur-md transition-colors border shadow-sm bg-white/10 text-white/75 hover:bg-white/15 hover:text-white/90 active:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35 focus-visible:ring-offset-2 focus-visible:ring-offset-black/30"
+            @mouseenter="activePaginationGroupId = group.id"
+            class="shrink-0 h-9 px-3.5 rounded-xl text-sm font-medium transition-all text-white/75 hover:text-white active:scale-95 focus-visible:outline-none"
             :class="
               activePaginationGroupId === group.id
-                ? 'bg-white/22 border-white/35 text-white shadow-[0_6px_18px_rgba(0,0,0,0.18)] ring-1 ring-white/35'
-                : 'border-white/12'
+                ? 'bg-white/20 text-white font-semibold shadow-sm'
+                : 'hover:bg-white/10'
             "
           >
             {{ group.title }}
