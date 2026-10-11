@@ -3051,7 +3051,7 @@ onUnmounted(() => {
               {{ store.appConfig.customTitle }}
             </h1>
             <div
-              class="items-center bg-white/90 backdrop-blur border border-gray-200 shadow-sm rounded-full p-1 gap-1 h-8"
+              class="xgo-status-capsule items-center p-0 gap-1 h-8"
               :class="store.appConfig.hideHeaderOnMobile ? 'hidden xl:flex' : 'flex'"
             >
               <!-- 内外网状态与延迟 -->
