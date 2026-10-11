@@ -4904,6 +4904,21 @@ html.xgo-dark .vgl-item .bg-white:not([class*="hover:bg-white"]) {
 html.xgo-dark .vgl-item [class*="border-white/"] {
   border-color: rgba(255, 255, 255, 0.12) !important;
 }
+
+/* 关键：仅悬停时出现的白底（如 RSS 列表行的 hover:bg-white/10）
+   在深色下默认必须强制透明。否则自定义 CSS 里的
+   .vgl-item [class*="bg-white/"] { background-color:#f3f4f6 } 会接管，
+   把整列列表渲染成常驻浅灰“白遮罩”。 */
+html.xgo-dark .vgl-item [class*="hover:bg-white"],
+html.xgo-dark .vgl-item [class*="hover:bg-gray-50"],
+html.xgo-dark .vgl-item [class*="hover:bg-gray-100"] {
+  background-color: transparent !important;
+}
+html.xgo-dark .vgl-item [class*="hover:bg-white"]:hover,
+html.xgo-dark .vgl-item [class*="hover:bg-gray-50"]:hover,
+html.xgo-dark .vgl-item [class*="hover:bg-gray-100"]:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
 html.xgo-dark .vgl-item .bg-gray-200,
 html.xgo-dark .vgl-item .dark\:bg-gray-700 {
   background-color: rgba(255, 255, 255, 0.14) !important;
