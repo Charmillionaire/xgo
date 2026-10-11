@@ -4891,9 +4891,15 @@ html.xgo-dark .vgl-item svg {
   filter: none !important;
 }
 
-/* 卡片内浅色块 / 分割线 */
-html.xgo-dark .vgl-item [class*="bg-white/"] {
+/* 卡片内浅色块 / 分割线
+   注意：必须排除 hover:bg-white/* —— 否则会把「仅悬停时才出现的白底」
+   变成常驻背景，导致 RSS 列表等被糊上一层白遮罩 */
+html.xgo-dark .vgl-item [class*="bg-white/"]:not([class*="hover:bg-white"]) {
   background-color: rgba(255, 255, 255, 0.12) !important;
+}
+/* 实心 bg-white 元素在深色下改为淡白半透 */
+html.xgo-dark .vgl-item .bg-white:not([class*="hover:bg-white"]) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }
 html.xgo-dark .vgl-item [class*="border-white/"] {
   border-color: rgba(255, 255, 255, 0.12) !important;
