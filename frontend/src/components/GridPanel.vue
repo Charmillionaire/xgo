@@ -3056,23 +3056,23 @@ onUnmounted(() => {
             >
               <!-- 内外网状态与延迟 -->
               <div
-                class="flex items-center gap-2 px-3 h-full rounded-full text-[10px] font-medium cursor-pointer hover:bg-gray-100 transition-all select-none"
+                class="flex items-center gap-2 px-3 h-full rounded-full text-[10px] font-medium text-white cursor-pointer hover:bg-white/15 transition-all select-none"
                 @click="handleNetworkClick"
               >
                 <template v-if="isChecking"
                   ><div
-                    class="w-2 h-2 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"
+                    class="w-2 h-2 border-2 border-white/40 border-t-white rounded-full animate-spin"
                   ></div
                 ></template>
                 <template v-else
                   ><div
                     class="w-1.5 h-1.5 rounded-full"
-                    :class="effectiveIsLan ? 'bg-green-500' : 'bg-blue-500'"
+                    :class="effectiveIsLan ? 'bg-green-400' : 'bg-blue-400'"
                   ></div>
-                  <span :class="effectiveIsLan ? 'text-green-700' : 'text-blue-700'">{{
+                  <span class="text-white font-bold">{{
                     effectiveIsLan ? "内网" : "外网"
                   }}</span
-                  ><span class="text-gray-400 border-l pl-2 ml-1">{{ latency }}ms</span></template
+                  ><span class="text-white/70 border-l border-white/30 pl-2 ml-1">{{ latency }}ms</span></template
                 >
               </div>
 
@@ -3084,7 +3084,7 @@ onUnmounted(() => {
                 :class="
                   isEditMode
                     ? 'bg-red-500 text-white hover:bg-red-600'
-                    : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                    : 'text-white hover:bg-white/15'
                 "
               >
                 <svg
@@ -3122,7 +3122,7 @@ onUnmounted(() => {
               <button
                 @click="openSettings"
                 title="设置"
-                class="w-7 h-7 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-all shrink-0"
+                class="w-7 h-7 rounded-full flex items-center justify-center text-white hover:bg-white/15 transition-all shrink-0"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
