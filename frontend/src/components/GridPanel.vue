@@ -1024,26 +1024,18 @@ const handleWebPaginationWheel = (e: WheelEvent) => {
   )
     return;
   if (e.ctrlKey || e.metaKey || e.shiftKey) return;
-  if (!e.deltaY) return;
+  const delta = e.deltaY || e.deltaX;
+  if (!delta) return;
 
   const now = Date.now();
   if (now < paginationWheelLockUntil.value) return;
 
-  const scrollEl = getScrollElement();
-  if (!scrollEl) return;
-
-  const canScroll = scrollEl.scrollHeight - scrollEl.clientHeight > 2;
-  const atTop = scrollEl.scrollTop <= 0;
-  const atBottom = scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 1;
-  const shouldPaginate = !canScroll || (e.deltaY < 0 ? atTop : atBottom);
-  if (!shouldPaginate) return;
-
   e.preventDefault();
   e.stopPropagation();
 
-  paginationWheelLockUntil.value = now + 320;
+  paginationWheelLockUntil.value = now + 240;
   if (store.appConfig.webGroupPaginationDisableFlip) return;
-  movePaginationGroup(e.deltaY > 0 ? 1 : -1);
+  movePaginationGroup(delta > 0 ? 1 : -1);
 };
 
 watch(
@@ -1063,12 +1055,10 @@ const sanitizedFooterHtml = computed(() => {
 });
 
 onMounted(() => {
-  mainContainerRef.value?.addEventListener("wheel", handleWebPaginationWheel, { passive: false });
+  // 不再在 mainContainer 全局挂载 wheel 监听，避免全屏/阅读组件内部滚动时误切分组
 });
 
-onUnmounted(() => {
-  mainContainerRef.value?.removeEventListener("wheel", handleWebPaginationWheel);
-});
+onUnmounted(() => {});
 
 const cycleWidgetSize = (widget: WidgetConfig) => {
   // 统一为所有组件启用 4x4 尺寸选择器
@@ -3327,6 +3317,7 @@ onUnmounted(() => {
         <VueDraggable
           v-if="isWebPaginationMode"
           v-model="store.groups"
+          @wheel.prevent="handleWebPaginationWheel"
           class="mb-3 flex items-center justify-center gap-2 overflow-x-auto scrollbar-hide py-1 w-full"
           :group="{ name: 'pagination-groups', pull: false, put: false }"
           :sort="isEditMode && !searchText"
