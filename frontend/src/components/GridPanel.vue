@@ -491,6 +491,18 @@ const isSidebarEnabled = computed(() => {
 });
 
 const searchEngineStored = useStorage("flat-nas-engine", "google");
+
+// ===== 深色磨砂模式 =====
+// 点击右上角月亮/太阳按钮在「纯白浅色」与「深色磨砂」之间切换，选择持久化
+const isDarkTheme = useStorage("xgo-dark-theme", false);
+const applyThemeClass = (dark: boolean) => {
+  if (typeof document === "undefined") return;
+  document.documentElement.classList.toggle("xgo-dark", dark);
+};
+watch(isDarkTheme, (v) => applyThemeClass(!!v), { immediate: true });
+const toggleDarkTheme = () => {
+  isDarkTheme.value = !isDarkTheme.value;
+};
 const engines = computed(
   () =>
     store.appConfig.searchEngines || [
@@ -3109,6 +3121,47 @@ onUnmounted(() => {
                 </svg>
               </button>
 
+              <!-- 主题切换（浅色纯白 ⇋ 深色磨砂） -->
+              <button
+                @click="toggleDarkTheme"
+                :title="isDarkTheme ? '切换到浅色' : '切换到深色磨砂'"
+                class="w-7 h-7 rounded-full flex items-center justify-center text-white hover:bg-white/15 transition-all shrink-0"
+              >
+                <svg
+                  v-if="!isDarkTheme"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-4 h-4"
+                >
+                  <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                </svg>
+                <svg
+                  v-else
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  class="w-4 h-4"
+                >
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2.4v1.2" />
+                  <path d="M12 20.4v1.2" />
+                  <path d="M2.4 12h1.2" />
+                  <path d="M20.4 12h1.2" />
+                  <path d="M5.1 5.1h1.2" />
+                  <path d="M17.7 17.7h1.2" />
+                  <path d="M17.7 5.1h1.2" />
+                  <path d="M5.1 17.7h1.2" />
+                </svg>
+              </button>
+
               <!-- 设置（未登录时点击直接弹登录） -->
               <button
                 @click="openSettings"
@@ -4743,5 +4796,217 @@ onUnmounted(() => {
 @keyframes fogFade {
   0% { opacity: 0.3; }
   100% { opacity: 0.7; }
+}
+</style>
+
+<!-- ==================== 深色磨砂模式（非 scoped，需覆盖运行时注入的自定义 CSS） ==================== -->
+<!-- 所有规则均以 html.xgo-dark 前缀提高优先级，确保能压过自定义 CSS 中的 !important 纯白规则 -->
+<style>
+html.xgo-dark .vgl-item > div {
+  background-color: rgba(20, 20, 26, 0.66) !important;
+  background-image: none !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 10px 30px -6px rgba(0, 0, 0, 0.55) !important;
+  border-radius: 1.25rem !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+html.xgo-dark .vgl-item div[class*="bg-gradient-to-"],
+html.xgo-dark .vgl-item div[class*="bg-gradient"] {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html.xgo-dark .vgl-item [class*="group-hover:backdrop-blur"],
+html.xgo-dark .vgl-item div[class*="backdrop-blur-["] {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 文字层级：标题纯白，正文柔白，次级中灰 */
+html.xgo-dark .vgl-item h1,
+html.xgo-dark .vgl-item h2,
+html.xgo-dark .vgl-item h3,
+html.xgo-dark .vgl-item h4,
+html.xgo-dark .vgl-item h5,
+html.xgo-dark .vgl-item h6 {
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+
+html.xgo-dark .vgl-item p,
+html.xgo-dark .vgl-item span,
+html.xgo-dark .vgl-item div,
+html.xgo-dark .vgl-item a,
+html.xgo-dark .vgl-item li,
+html.xgo-dark .vgl-item strong,
+html.xgo-dark .vgl-item em,
+html.xgo-dark .vgl-item small,
+html.xgo-dark .vgl-item label,
+html.xgo-dark .vgl-item button {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: none !important;
+}
+
+html.xgo-dark .vgl-item [class*="text-white"] {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+html.xgo-dark .vgl-item .text-gray-300,
+html.xgo-dark .vgl-item .text-gray-400,
+html.xgo-dark .vgl-item .text-gray-500,
+html.xgo-dark .vgl-item .text-gray-600,
+html.xgo-dark .vgl-item .text-gray-700,
+html.xgo-dark .vgl-item [class*="text-white/4"],
+html.xgo-dark .vgl-item [class*="text-white/5"] {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+
+html.xgo-dark .vgl-item [class*="text-white/6"],
+html.xgo-dark .vgl-item [class*="text-white/7"],
+html.xgo-dark .vgl-item [class*="text-white/8"] {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+html.xgo-dark .vgl-item .text-red-600,
+html.xgo-dark .vgl-item .text-red-600 * {
+  color: #f87171 !important;
+}
+html.xgo-dark .vgl-item .text-green-500,
+html.xgo-dark .vgl-item .text-green-400 {
+  color: #4ade80 !important;
+}
+html.xgo-dark .vgl-item .text-blue-500,
+html.xgo-dark .vgl-item .text-blue-400 {
+  color: #60a5fa !important;
+}
+
+html.xgo-dark .vgl-item svg {
+  color: rgba(255, 255, 255, 0.82) !important;
+  fill: currentColor;
+  filter: none !important;
+}
+
+/* 卡片内浅色块 / 分割线 */
+html.xgo-dark .vgl-item [class*="bg-white/"] {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+html.xgo-dark .vgl-item [class*="border-white/"] {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+html.xgo-dark .vgl-item .bg-gray-200,
+html.xgo-dark .vgl-item .dark\:bg-gray-700 {
+  background-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+/* 组件内输入框 */
+html.xgo-dark .vgl-item input:not([type="checkbox"]),
+html.xgo-dark .vgl-item textarea {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+html.xgo-dark .vgl-item input:not([type="checkbox"])::placeholder,
+html.xgo-dark .vgl-item textarea::placeholder {
+  color: rgba(255, 255, 255, 0.42) !important;
+}
+html.xgo-dark .vgl-item input:not([type="checkbox"]):focus,
+html.xgo-dark .vgl-item textarea:focus {
+  background-color: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+}
+
+/* 热搜 / 列表类组件的 Tab 与条目 */
+html.xgo-dark .vgl-item button[class*="bg-red-50"],
+html.xgo-dark .vgl-item button[class*="bg-blue-50"],
+html.xgo-dark .vgl-item button[class*="bg-orange-50"],
+html.xgo-dark .vgl-item button.active {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+  color: #ffffff !important;
+}
+html.xgo-dark .vgl-item button.text-gray-500 {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+html.xgo-dark .vgl-item button.text-gray-500:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
+html.xgo-dark .vgl-item a[class*="hover:bg-gray-50"]:hover,
+html.xgo-dark .vgl-item a[class*="hover:bg-white/"]:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+html.xgo-dark .vgl-item a span.rounded.text-xs.font-bold {
+  background-color: rgba(0, 0, 0, 0.45) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+html.xgo-dark .vgl-item .line-clamp-2,
+html.xgo-dark .vgl-item .line-clamp-1 {
+  color: rgba(255, 255, 255, 0.92) !important;
+  text-shadow: none !important;
+}
+
+/* ---------- 顶部搜索框：深色磨砂 ---------- */
+html.xgo-dark .xgo-search-form,
+html.xgo-dark form[action="."] {
+  background-color: rgba(24, 24, 30, 0.7) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.36) !important;
+}
+html.xgo-dark .xgo-search-form:hover,
+html.xgo-dark .xgo-search-form:focus-within {
+  background-color: rgba(34, 34, 42, 0.86) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+html.xgo-dark .xgo-search-form .xgo-search-input,
+html.xgo-dark form[action="."] input {
+  color: #ffffff !important;
+}
+html.xgo-dark .xgo-search-form .xgo-search-input::placeholder,
+html.xgo-dark form[action="."] input::placeholder {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+html.xgo-dark .xgo-search-select {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+html.xgo-dark .xgo-search-select:hover {
+  color: #ffffff !important;
+}
+html.xgo-dark .xgo-search-form svg,
+html.xgo-dark form[action="."] svg {
+  color: rgba(255, 255, 255, 0.6) !important;
+  stroke: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ---------- 纯文字标签卡片：深色磨砂 ---------- */
+html.xgo-dark .card-item[style*="rgb(255, 255, 255)"] {
+  background-color: rgba(20, 20, 26, 0.66) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.32) !important;
+}
+html.xgo-dark .card-item span {
+  color: rgba(255, 255, 255, 0.92) !important;
+  text-shadow: none !important;
+}
+
+/* ---------- 分组标题 ---------- */
+html.xgo-dark .group-header h2 {
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75) !important;
+}
+
+/* ---------- 右上角主题按钮过渡 ---------- */
+html.xgo-dark .xgo-status-capsule button {
+  color: #ffffff !important;
 }
 </style>
