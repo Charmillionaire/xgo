@@ -490,13 +490,6 @@ const isSidebarEnabled = computed(() => {
   return checkVisible(w) && !(isMobile.value && w?.hideOnMobile);
 });
 
-const toggleForceMode = () => {
-  if (forceMode.value === "auto") forceMode.value = "lan";
-  else if (forceMode.value === "lan") forceMode.value = "wan";
-  else if (forceMode.value === "wan") forceMode.value = "latency";
-  else forceMode.value = "auto";
-};
-
 const searchEngineStored = useStorage("flat-nas-engine", "google");
 const engines = computed(
   () =>
@@ -2120,22 +2113,6 @@ watch(
   { deep: true },
 );
 
-const handleAuthAction = async () => {
-  if (store.isLogged) {
-    const wasEditing = isEditMode.value;
-    isEditMode.value = false;
-    if (wasEditing) {
-      try {
-        await store.saveData(true);
-      } finally {
-        store.layoutEditInProgress = false;
-      }
-    }
-    store.logout();
-  } else {
-    showLoginModal.value = true;
-  }
-};
 const openSettings = () => {
   if (!store.isLogged) {
     showLoginModal.value = true;
@@ -3077,55 +3054,7 @@ onUnmounted(() => {
               class="items-center bg-white/90 backdrop-blur border border-gray-200 shadow-sm rounded-full p-1 gap-1 h-8"
               :class="store.appConfig.hideHeaderOnMobile ? 'hidden xl:flex' : 'flex'"
             >
-              <button
-                @click="openSettings"
-                class="xl:hidden w-6 h-6 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 flex items-center justify-center transition-all"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="w-4 h-4"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567l-.091.549a.798.798 0 01-.517.608 7.45 7.45 0 00-.478.198.798.798 0 01-.796-.064l-.453-.324a1.875 1.875 0 00-2.416.2l-.043.044a1.875 1.875 0 00-.204 2.416l.325.454a.798.798 0 01.064.796 7.448 7.448 0 00-.198.478.798.798 0 01-.608.517l-.55.092a1.875 1.875 0 00-1.566 1.849v.044c0 .917.663 1.699 1.567 1.85l.549.091c.281.047.508.25.608.517.06.162.127.321.198.478a.798.798 0 01-.064.796l-.324.453a1.875 1.875 0 00.2 2.416l.044.043a1.875 1.875 0 002.416.204l.454-.325a.798.798 0 01.796-.064c.157.071.316.137.478.198.267.1.47.327.517.608l.092.55c.15.903.932 1.566 1.849 1.566h.044c.917 0 1.699-.663 1.85-1.567l.091-.549a.798.798 0 01.517-.608 7.52 7.52 0 00.478-.198.798.798 0 01.796.064l.453.324a1.875 1.875 0 002.416-.2l.043-.044a1.875 1.875 0 00.204-2.416l-.325-.454a.798.798 0 01-.064-.796c.071-.157.137-.316.198-.478.1-.267.327-.47.608-.517l.55-.092a1.875 1.875 0 001.566-1.849v-.044c0-.917-.663-1.699-1.567-1.85l-.549-.091a.798.798 0 01-.608-.517 7.507 7.507 0 00-.198-.478.798.798 0 01.064-.796l.324-.453a1.875 1.875 0 00-.2-2.416l-.044-.043a1.875 1.875 0 00-2.416-.204l-.454.325a.798.798 0 01-.796.064 7.462 7.462 0 00-.478-.198.798.798 0 01-.517-.608l-.092-.55a1.875 1.875 0 00-1.849-1.566h-.044zM12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </button>
-              <button
-                v-if="store.isLogged"
-                @click="toggleEditMode"
-                class="xl:hidden px-3 h-6 rounded-full text-[10px] font-bold transition-all"
-                :class="
-                  isEditMode
-                    ? 'bg-red-500 text-white'
-                    : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-                "
-              >
-                {{ isEditMode ? "完成" : "编辑" }}
-              </button>
-              <button
-                @click="toggleForceMode"
-                class="px-3 h-6 rounded-full text-[10px] font-bold transition-all"
-                :class="{
-                  'bg-gray-100 text-gray-400 hover:bg-gray-200': forceMode === 'auto',
-                  'bg-green-100 text-green-600 hover:bg-green-200': forceMode === 'lan',
-                  'bg-blue-100 text-blue-600 hover:bg-blue-200': forceMode === 'wan',
-                  'bg-yellow-100 text-yellow-700 hover:bg-yellow-200': forceMode === 'latency',
-                }"
-              >
-                {{
-                  forceMode === "auto"
-                    ? "自动"
-                    : forceMode === "lan"
-                      ? "强制内网"
-                      : forceMode === "wan"
-                        ? "强制外网"
-                        : "延迟判定"
-                }}
-              </button>
+              <!-- 内外网状态与延迟 -->
               <div
                 class="flex items-center gap-2 px-3 h-full rounded-full text-[10px] font-medium cursor-pointer hover:bg-gray-100 transition-all select-none"
                 @click="handleNetworkClick"
@@ -3146,16 +3075,70 @@ onUnmounted(() => {
                   ><span class="text-gray-400 border-l pl-2 ml-1">{{ latency }}ms</span></template
                 >
               </div>
+
+              <!-- 编辑（未登录时点击直接弹登录） -->
               <button
-                @click="handleAuthAction"
-                class="px-3 h-6 rounded-full text-[10px] font-bold transition-all"
-                :class="[
-                  store.isLogged
+                @click="openEditOrLogin"
+                :title="isEditMode ? '完成编辑' : '编辑'"
+                class="w-7 h-7 rounded-full flex items-center justify-center transition-all shrink-0"
+                :class="
+                  isEditMode
                     ? 'bg-red-500 text-white hover:bg-red-600'
-                    : 'bg-gray-100 text-gray-500 hover:bg-blue-500 hover:text-white',
-                ]"
+                    : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                "
               >
-                {{ store.isLogged ? "退出" : "登录" }}
+                <svg
+                  v-if="!isEditMode"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-4 h-4"
+                >
+                  <path
+                    d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                  />
+                  <path d="m15 5 4 4" />
+                </svg>
+                <svg
+                  v-else
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-4 h-4"
+                >
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              </button>
+
+              <!-- 设置（未登录时点击直接弹登录） -->
+              <button
+                @click="openSettings"
+                title="设置"
+                class="w-7 h-7 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-all shrink-0"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-4 h-4"
+                >
+                  <path
+                    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+                  />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
               </button>
             </div>
           </div>
