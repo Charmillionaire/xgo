@@ -175,7 +175,14 @@
     "mockData": "模拟数据",
     "autoUpdate": "自动升级",
     "unknownWidget": "未知组件 ({type})",
-    "defaultGroup": "默认分组"
+    "defaultGroup": "默认分组",
+    "backgroundWatermark": "动态大字水印",
+    "enableWatermark": "启用动态背景水印",
+    "watermarkDesc": "在背景层以若隐若现的大字循环横向平移，带来高级质感",
+    "watermarkText": "水印文字",
+    "watermarkTextPlaceholder": "留空则使用网站标题",
+    "watermarkOpacity": "水印不透明度",
+    "watermarkSpeed": "滚动动画周期 (秒)"
   },
   "validation": {
     "latencyInput": "请输入阈值（20–30000）",

@@ -2140,6 +2140,83 @@ watch(activeTab, (val) => {
                       ></div>
                     </label>
                   </div>
+
+                  <!-- 动态大字水印配置 -->
+                  <div class="pt-3 border-t border-gray-100 dark:border-neutral-800">
+                    <div class="flex items-center justify-between">
+                      <div class="flex flex-col">
+                        <span class="text-xs font-medium text-gray-700 dark:text-gray-300">{{ $t('settings.sections.enableWatermark') }}</span>
+                        <span class="text-[11px] text-gray-400">{{ $t('settings.sections.watermarkDesc') }}</span>
+                      </div>
+                      <label class="relative inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          class="sr-only peer"
+                          :checked="store.appConfig.backgroundWatermarkEnabled"
+                          @change="
+                            (e) => {
+                              store.appConfig.backgroundWatermarkEnabled = (
+                                e.target as HTMLInputElement
+                              ).checked;
+                              store.markDirty();
+                            }
+                          "
+                        />
+                        <div
+                          class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-500"
+                        ></div>
+                      </label>
+                    </div>
+
+                    <Transition name="fade">
+                      <div v-if="store.appConfig.backgroundWatermarkEnabled" class="mt-3 space-y-3 pt-2">
+                        <div>
+                          <label class="text-[11px] font-medium text-gray-600 dark:text-gray-400 mb-1 block">{{ $t('settings.sections.watermarkText') }}</label>
+                          <input
+                            type="text"
+                            class="w-full text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                            :placeholder="$t('settings.sections.watermarkTextPlaceholder')"
+                            :value="store.appConfig.backgroundWatermarkText ?? ''"
+                            @input="(e) => { store.appConfig.backgroundWatermarkText = (e.target as HTMLInputElement).value; store.markDirty(); }"
+                          />
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                          <div>
+                            <div class="flex items-center justify-between mb-1">
+                              <label class="text-[11px] font-medium text-gray-600 dark:text-gray-400">{{ $t('settings.sections.watermarkOpacity') }}</label>
+                              <span class="text-[10px] text-gray-400">{{ Math.round((store.appConfig.backgroundWatermarkOpacity ?? 0.04) * 100) }}%</span>
+                            </div>
+                            <input
+                              type="range"
+                              min="0.01"
+                              max="0.2"
+                              step="0.01"
+                              class="w-full h-1.5 bg-gray-200 dark:bg-neutral-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                              :value="store.appConfig.backgroundWatermarkOpacity ?? 0.04"
+                              @input="(e) => { store.appConfig.backgroundWatermarkOpacity = parseFloat((e.target as HTMLInputElement).value); store.markDirty(); }"
+                            />
+                          </div>
+
+                          <div>
+                            <div class="flex items-center justify-between mb-1">
+                              <label class="text-[11px] font-medium text-gray-600 dark:text-gray-400">{{ $t('settings.sections.watermarkSpeed') }}</label>
+                              <span class="text-[10px] text-gray-400">{{ store.appConfig.backgroundWatermarkSpeed ?? 25 }}s</span>
+                            </div>
+                            <input
+                              type="range"
+                              min="10"
+                              max="60"
+                              step="5"
+                              class="w-full h-1.5 bg-gray-200 dark:bg-neutral-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                              :value="store.appConfig.backgroundWatermarkSpeed ?? 25"
+                              @input="(e) => { store.appConfig.backgroundWatermarkSpeed = parseInt((e.target as HTMLInputElement).value, 10); store.markDirty(); }"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </Transition>
+                  </div>
                 </div>
                 <div>
                   <label class="text-sm font-medium text-gray-700 mb-1 block">{{ $t('settings.sections.solidColor') }}</label>

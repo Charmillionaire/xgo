@@ -175,7 +175,14 @@
     "mockData": "Mock Data",
     "autoUpdate": "Auto Update",
     "unknownWidget": "Unknown Widget ({type})",
-    "defaultGroup": "Default Group"
+    "defaultGroup": "Default Group",
+    "backgroundWatermark": "Dynamic Background Watermark",
+    "enableWatermark": "Enable Dynamic Watermark",
+    "watermarkDesc": "Scrolls subtle large watermark text horizontally in the background",
+    "watermarkText": "Watermark Text",
+    "watermarkTextPlaceholder": "Leave empty to use site title",
+    "watermarkOpacity": "Watermark Opacity",
+    "watermarkSpeed": "Animation Duration (seconds)"
   },
   "validation": {
     "latencyInput": "Please enter threshold (20-30000)",

@@ -3002,6 +3002,31 @@ onUnmounted(() => {
           backgroundColor: `rgba(0,0,0,${effectiveMobileBackgroundMask})`,
         }"
       ></div>
+
+      <!-- 动态大字水印层 (Marquee Watermark) -->
+      <div
+        v-if="store.appConfig.backgroundWatermarkEnabled"
+        class="absolute inset-0 overflow-hidden pointer-events-none flex items-center justify-center select-none z-10"
+        aria-hidden="true"
+      >
+        <div
+          class="xgo-marquee-track flex whitespace-nowrap will-change-transform"
+          :style="{
+            animationDuration: `${store.appConfig.backgroundWatermarkSpeed ?? 25}s`,
+          }"
+        >
+          <span
+            v-for="i in 6"
+            :key="i"
+            class="mx-8 font-black tracking-wider leading-none text-[22vw] text-black dark:text-white"
+            :style="{
+              opacity: store.appConfig.backgroundWatermarkOpacity ?? 0.04,
+            }"
+          >
+            {{ store.appConfig.backgroundWatermarkText || store.appConfig.customTitle || '逍遥游' }}
+          </span>
+        </div>
+      </div>
     </div>
 
     <AppSidebar
@@ -5029,5 +5054,19 @@ html.xgo-dark .group-header h2 {
 /* ---------- 右上角主题按钮过渡 ---------- */
 html.xgo-dark .xgo-status-capsule button {
   color: #ffffff !important;
+}
+
+/* 背景动态大字水印无限循环动画 (GPU 加速) */
+.xgo-marquee-track {
+  animation: xgo-marquee-scroll linear infinite;
+}
+
+@keyframes xgo-marquee-scroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 </style>

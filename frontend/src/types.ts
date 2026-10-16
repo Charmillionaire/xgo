@@ -109,6 +109,10 @@ export interface AppConfig {
   daylightModeEnabled?: boolean;
   daylightMask?: number;
   weatherEffectEnabled?: boolean;
+  backgroundWatermarkEnabled?: boolean;
+  backgroundWatermarkText?: string;
+  backgroundWatermarkOpacity?: number;
+  backgroundWatermarkSpeed?: number;
   internalDomains?: string;
   networkRules?: string;
   networkPresets?: {
